@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        int islands = 0;
+// traverse the grid
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+// if land is found
+                if (grid[r][c] == '1') {
+                    islands++;
+
+                    // start BFS 
+                    queue<pair<int, int>> q;
+                    q.push({r, c});
+                    grid[r][c] = '0';
+// BFS traversal
+                    while (!q.empty()) {
+                        pair<int, int> current = q.front();
+                        q.pop();
+
+                        int row = current.first;
+                        int col = current.second;
+
+                        if (row - 1 >= 0 && grid[row - 1][col] == '1') {
+                            q.push({row - 1, col});
+                            grid[row - 1][col] = '0';
+                        }
+
+                        if (row + 1 < rows && grid[row + 1][col] == '1') {
+                            q.push({row + 1, col});
+                            grid[row + 1][col] = '0';
+                        }
+
+                        if (col - 1 >= 0 && grid[row][col - 1] == '1') {
+                            q.push({row, col - 1});
+                            grid[row][col - 1] = '0';
+                        }
+
+                        if (col + 1 < cols && grid[row][col + 1] == '1') {
+                            q.push({row, col + 1});
+                            grid[row][col + 1] = '0';
+                        }
+                    }
+                }
+            }
+        }
+
+        return islands;
+    }
+};
