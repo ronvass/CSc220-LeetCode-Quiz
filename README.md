@@ -53,3 +53,20 @@ The maximum gap must appear between two non-empty buckets, so after filling the 
 ### Complexity
 O(n * target)
 n is the number of elements, target is total/2 which at worst is (200 × 100)/2 = 10,000.
+
+---
+
+5/12/26 Quiz #5
+
+We scan every cell row by row, column by column to check every position once. A '1' (land) is an unvisited island so we increment the counter and start a BFS from there.
+
+We use 2 plain arrays; one for row indices, one for column indices. `front` tracks what to dequeue next, `back` tracks where to enqueue next. When `front` == `back`, the queue is empty and BFS is done.
+
+We set a cell to '0' upon adding it to the queue, not after processing it. If we would wait until processing, multiple neighbors could enqueue the same cell before it gets marked, causing duplicate work or wrong answers.
+
+BFS goes outward one at a time. From each cell it check up, down, left, and right. If a neighbor is in bounds and is land ('1'), we add it to the queue and mark it visited. This is how the entire connected island gets checked during the search.
+
+BFS finds all cells reachable (connected land) from a starting point. Every time BFS starts from the outer loop, an island gets all its '1's turned into '0's. So the next time the outer loop finds a '1', it will be a new island. The total number of times BFS was triggered = number of islands.
+
+### Complexity
+- **Time:** O(m*n)
